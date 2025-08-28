@@ -1,10 +1,9 @@
-
-
 class System:
 
     components: {}
 
-    # def __init__(self):
+    def __init__(self, language_iso2: str):
+        self.language_iso2 = language_iso2
 
     def add_component(self, component_name: str, component):
         self.components[component_name] = component
@@ -15,6 +14,3 @@ class System:
             return self.components[component_name]
 
         return None
-
-
-system = System()

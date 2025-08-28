@@ -2,23 +2,23 @@ import re
 import os
 import hashlib
 import json
+from nes.i18n.language import Language
 
 def parse_log_file(file_path):
     """
-    Парсить лог-файл, групує помилки та збирає статистику.
+    Parses the log file, groups errors, and collects statistics.
 
     Args:
-        file_path (str): Шлях до лог-файлу.
+        file_path (str): Path to log file.
 
     Returns:
-        dict: Словник з агрегованою інформацією про помилки.
+        dict: Dictionary with aggregated error information.
     """
-    # Регулярний вираз для виявлення рядка з новою помилкою
-    # Він захоплює дату, тип помилки та основне повідомлення.
+    # A regular expression to detect a line with a new error. It captures the date, error type, and main message.
     log_entry_regex = re.compile(
-        r'\[(.*?)\]\s+'  # 1. Часова мітка (напр. 29-Jun-2025 18:35:49 UTC)
-        r'(PHP (?:Fatal error|Warning|Notice|Parse error|Core error|Core warning|Compile error|Compile warning|User error|User warning|User notice|Strict Standards|Deprecated|User deprecated)):\s+'  # 2. Тип помилки (напр. PHP Fatal error)
-        r'(.*)',  # 3. Повідомлення про помилку
+        r'\[(.*?)\]\s+'  # 1. Timestamp
+        r'(PHP (?:Fatal error|Warning|Notice|Parse error|Core error|Core warning|Compile error|Compile warning|User error|User warning|User notice|Strict Standards|Deprecated|User deprecated)):\s+'  # 2. Error type (PHP Fatal error)
+        r'(.*)',  # Error message
         re.DOTALL
     )
 
@@ -28,23 +28,23 @@ def parse_log_file(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             for line in f:
-                # Перевіряємо, чи є поточний рядок початком нового запису в лозі
+                # Checking whether the current line is the beginning of a new record in the vine
                 if log_entry_regex.match(line) and current_entry_lines:
-                    # Якщо так, обробляємо попередній запис
+                    # If so, we process the previous record
                     process_log_entry(current_entry_lines, log_entry_regex, aggregated_errors)
                     current_entry_lines = []
 
                 current_entry_lines.append(line)
 
-            # Обробляємо останній запис у файлі
+            # Processing the last record in the file
             if current_entry_lines:
                 process_log_entry(current_entry_lines, log_entry_regex, aggregated_errors)
 
     except FileNotFoundError:
-        print(f"Помилка: Файл не знайдено за шляхом '{file_path}'")
+        print(f"Error: File not found at path '{file_path}'")
         return None
     except Exception as e:
-        print(f"Виникла несподівана помилка: {e}")
+        print(f"An unexpected error occurred: {e}")
         return None
 
     return aggregated_errors
@@ -52,12 +52,12 @@ def parse_log_file(file_path):
 
 def process_log_entry(lines, regex, aggregated_errors):
     """
-    Обробляє окремий запис логу (який може бути багаторядковим).
+    Processes a single log entry (which may be multi-line).
 
     Args:
-        lines (list): Список рядків, що належать до одного запису.
-        regex (re.Pattern): Скомпільований регулярний вираз для парсингу.
-        aggregated_errors (dict): Словник для зберігання результатів.
+        lines (list): List of rows belonging to a single record.
+        regex (re.Pattern): Compiled regular expression for parsing.
+        aggregated_errors (dict): Dictionary for storing results.
     """
     full_entry_text = "".join(lines)
     match = regex.match(full_entry_text)
@@ -67,10 +67,10 @@ def process_log_entry(lines, regex, aggregated_errors):
 
     timestamp = match.group(1).strip()
     error_type = match.group(2).strip()
-    # Повідомлення та Stack Trace
+    # Message and Stack Trace
     message_and_trace = match.group(3).strip()
 
-    # Розділяємо основне повідомлення та stack trace
+    # Split message and Stack Trace
     if 'Stack trace:' in message_and_trace:
         parts = message_and_trace.split('Stack trace:', 1)
         error_message = parts[0].strip()
@@ -79,13 +79,13 @@ def process_log_entry(lines, regex, aggregated_errors):
         error_message = message_and_trace
         stack_trace = None
 
-    # Створюємо унікальний ключ для групування.
-    # Помилки вважаються однаковими, якщо збігається їхній тип, повідомлення та stack trace.
-    # Шляхи до файлів у stack trace можуть містити динамічні частини, тому ми їх нормалізуємо.
+    # Create a unique grouping key.
+    # Errors are considered the same if their type, message, and stack trace match.
+    # File paths in the stack trace can contain dynamic parts, so we normalize them.
     normalized_trace = re.sub(r'#\d+\s+.*?\(\d+\)', '#N file(line)', stack_trace) if stack_trace else ''
     unique_key_string = f"{error_type}|{error_message}|{normalized_trace}"
 
-    # Використовуємо хеш як ключ для ефективності
+    # We use hash as a key for efficiency
     unique_key = hashlib.md5(unique_key_string.encode('utf-8')).hexdigest()
 
     if unique_key not in aggregated_errors:
@@ -97,25 +97,27 @@ def process_log_entry(lines, regex, aggregated_errors):
             'stack_trace': stack_trace
         }
 
-    # Оновлюємо статистику
+    # Update statistics
     aggregated_errors[unique_key]['count'] += 1
     aggregated_errors[unique_key]['timestamps'].append(timestamp)
 
 
 def print_summary(aggregated_errors, language_iso2: str = 'en'):
     """
-    Виводить звіт про проаналізовані помилки у читабельному форматі.
+    Outputs a report of analyzed errors in a readable format.
 
     Args:
-        :param aggregated_errors: Словник з агрегованою інформацією.
-        :param language_iso2: мова, на котрій буде вивод ф-ції
+        :param aggregated_errors: Dictionary with aggregated information.
+        :param language_iso2: the language ISO2 code in which the function output will be
     """
+    translations = Language(language_iso2=language_iso2)
+    translations.load('print-summary')
     if not aggregated_errors:
-        print("Не знайдено жодних помилок для аналізу.")
+        print(translations.get('text_empty_errors'))
         return
 
     print("=" * 80)
-    print("Аналіз лог-файлу завершено. Результати:")
+    print(translations.get('text_anal_finished_results'))
     print("=" * 80)
 
     # Сортуємо помилки за кількістю повторень (від найбільшої до найменшої)
@@ -124,8 +126,8 @@ def print_summary(aggregated_errors, language_iso2: str = 'en'):
     total_unique_errors = len(sorted_errors)
     total_errors = sum(item['count'] for item in sorted_errors)
 
-    print(f"Всього знайдено помилок: {total_errors}")
-    print(f"Кількість унікальних типів помилок: {total_unique_errors}\n")
+    print(f"{translations.get('text_errors_total')} {total_errors}")
+    print(f"{translations.get('text_unique_errors_count')} {total_unique_errors}\n")
 
     for i, error_data in enumerate(sorted_errors, 1):
         print("-" * 80)

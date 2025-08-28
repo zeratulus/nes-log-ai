@@ -1,0 +1,6 @@
+{
+  "text_empty_errors": "No errors were found for analysis.",
+  "text_anal_finished_results": "Log file analysis completed. Results:",
+  "text_errors_total": "Total errors found:",
+  "text_unique_errors_count": "Number of unique error types:"
+}
