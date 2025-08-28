@@ -57,14 +57,14 @@ def get_approximated_ai_layers_count(default_ai_layer_size = 1200):
 def init_llm(override_llm_model: str = '', override_max_tokens: int = 0, is_predict_ai_layers: bool = False) -> ChatOllama | ChatOpenAI:
     llm = None
     is_local_ollama_preferred = False
-    if os.environ.get("IS_LOCAL_OLLAMA_PREFERRED") == "True":
+    if bool(os.environ.get("IS_LOCAL_OLLAMA_PREFERRED")):
         is_local_ollama_preferred = True
 
-    if is_local_ollama_preferred and os.environ.get("LOCAL_OLLAMA_MODEL_GEMMA"):
-        model = os.environ.get("LOCAL_OLLAMA_MODEL_GEMMA")
-        num_ctx = (os.environ.get("LOCAL_OLLAMA_MODEL_GEMMA_NUM_CTX") or 16000)
+    if is_local_ollama_preferred and os.environ.get("LOCAL_OLLAMA_MODEL_CODER"):
+        model = os.environ.get("LOCAL_OLLAMA_MODEL_CODER")
+        num_ctx = (os.environ.get("LOCAL_OLLAMA_MODEL_CODER_NUM_CTX") or 16000)
         num_predict = (os.environ.get("LOCAL_OLLAMA_NUM_PREDICT") or -1)
-        max_cpu_cores = get_logical_cpu_cores() - 4 if os.environ.get("IS_LOCAL_OLLAMA_MAX_PERFORMANCE") else get_logical_cpu_cores() / 2
+        max_cpu_cores = get_logical_cpu_cores() - 4 if bool(os.environ.get("IS_LOCAL_OLLAMA_MAX_PERFORMANCE")) else get_logical_cpu_cores() / 2
 
         if len(override_llm_model) > 0:
             model = override_llm_model
