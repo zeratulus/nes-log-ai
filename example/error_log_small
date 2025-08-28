@@ -1,0 +1,124 @@
+[29-Jun-2025 18:35:49 UTC] PHP Fatal error:  Uncaught TypeError: flock(): Argument #1 ($stream) must be of type resource, bool given in /home/fake_path/system/library/Cache/File.php:57
+Stack trace:
+#0 /home/fake_path/system/library/Cache/File.php(57): flock()
+#1 /home/fake_path/system/library/Cache.php(74): Cache\File->set()
+#2 /home/fake_path/public_html/catalog/model/design/seo_url.php(12): Cache->set()
+#3 /home/fake_path/system/library/Loader.php(254): ModelDesignSeoUrl->getSeoUrlsByKeyword()
+#4 /home/fake_path/system/library/Proxy.php(40): Loader->{closure}()
+#5 /home/fake_path/public_html/catalog/controller/common/cms.php(223): Proxy->__call()
+#6 /home/fake_path/system/library/Action.php(132): ControllerCommonCms->getLanguageAlternateLinks()
+#7 /home/fake_path/system/library/Action.php(83): Action->callClassMethod()
+#8 /home/fake_path/system/library/Loader.php(45): Action->execute()
+#9 /home/fake_path/public_html/catalog/controller/common/header.php(233): Loader->controller()
+#10 /home/fake_path/system/library/Action.php(132): ControllerCommonHeader->index()
+#11 /home/fake_path/system/library/Action.php(83): Action->callClassMethod()
+#12 /home/fake_path/system/library/Loader.php(45): Action->execute()
+#13 /home/fake_path/system/library/Ninja/NinjaController.php(30): Loader->controller()
+#14 /home/fake_path/public_html/catalog/controller/blog/article.php(343): Ninja\NinjaController->renderCommonBlocks()
+#15 /home/fake_path/system/library/Action.php(132): ControllerBlogArticle->index()
+#16 /home/fake_path/system/library/Action.php(83): Action->callClassMethod()
+#17 /home/fake_path/public_html/catalog/controller/startup/router.php(28): Action->execute()
+#18 /home/fake_path/system/library/Action.php(132): ControllerStartupRouter->index()
+#19 /home/fake_path/system/library/Action.php(83): Action->callClassMethod()
+#20 /home/fake_path/system/library/Router.php(59): Action->execute()
+#21 /home/fake_path/system/library/Router.php(49): Router->execute()
+#22 /home/fake_path/system/framework.php(291): Router->dispatch()
+#23 /home/fake_path/system/helper/general.php(30): require_once('/home/fake_path/...')
+#24 /home/fake_path/public_html/index.php(19): start()
+#25 {main}
+  thrown in /home/fake_path/system/library/Cache/File.php on line 57
+[29-Jun-2025 18:45:41 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 18:48:13 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 18:49:31 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 18:52:00 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 18:53:25 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 18:53:25 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:04:36 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:04:37 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:06:35 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:09:29 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:09:30 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:09:31 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:10:38 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:10:40 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:10:42 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:14:16 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:14:25 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:14:32 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:14:46 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:14:48 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:14:52 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:15:30 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:15:41 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:15:50 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:17:25 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:17:37 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:17:49 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:18:11 UTC] PHP Fatal error:  Uncaught TypeError: flock(): Argument #1 ($stream) must be of type resource, bool given in /home/fake_path/system/library/Cache/File.php:35
+Stack trace:
+#0 /home/fake_path/system/library/Cache/File.php(35): flock()
+#1 /home/fake_path/system/library/Cache.php(64): Cache\File->get()
+#2 /home/fake_path/public_html/catalog/model/blog/article.php(349): Cache->get()
+#3 /home/fake_path/system/library/Loader.php(254): ModelBlogArticle->getTotalArticles()
+#4 /home/fake_path/system/library/Proxy.php(40): Loader->{closure}()
+#5 /home/fake_path/public_html/catalog/controller/blog/menu.php(57): Proxy->__call()
+#6 /home/fake_path/system/library/Action.php(132): ControllerBlogMenu->index()
+#7 /home/fake_path/system/library/Action.php(83): Action->callClassMethod()
+#8 /home/fake_path/system/library/Loader.php(45): Action->execute()
+#9 /home/fake_path/public_html/catalog/controller/common/menu.php(67): Loader->controller()
+#10 /home/fake_path/system/library/Action.php(132): ControllerCommonMenu->index()
+#11 /home/fake_path/system/library/Action.php(83): Action->callClassMethod()
+#12 /home/fake_path/system/library/Loader.php(45): Action->execute()
+#13 /home/fake_path/public_html/catalog/controller/common/header.php(241): Loader->controller()
+#14 /home/fake_path/system/library/Action.php(132): ControllerCommonHeader->index()
+#15 /home/fake_path/system/library/Action.php(83): Action->callClassMethod()
+#16 /home/fake_path/system/library/Loader.php(45): Action->execute()
+#17 /home/fake_path/system/library/Ninja/NinjaController.php(30): Loader->controller()
+#18 /home/fake_path/public_html/catalog/controller/error/not_found.php(42): Ninja\NinjaController->renderCommonBlocks()
+#19 /home/fake_path/system/library/Action.php(132): ControllerErrorNotFound->index()
+#20 /home/fake_path/system/library/Action.php(83): Action->callClassMethod()
+#21 /home/fake_path/public_html/catalog/controller/startup/router.php(28): Action->execute()
+#22 /home/fake_path/system/library/Action.php(132): ControllerStartupRouter->index()
+#23 /home/fake_path/system/library/Action.php(83): Action->callClassMethod()
+#24 /home/fake_path/system/library/Router.php(59): Action->execute()
+#25 /home/fake_path/system/library/Router.php(49): Router->execute()
+#26 /home/fake_path/system/framework.php(291): Router->dispatch()
+#27 /home/fake_path/system/helper/general.php(30): require_once('/home/fake_path/...')
+#28 /home/fake_path/public_html/index.php(19): start()
+#29 {main}
+  thrown in /home/fake_path/system/library/Cache/File.php on line 35
+[29-Jun-2025 19:19:49 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:19:55 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:19:59 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:20:56 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:21:00 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:21:02 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/fake_path/system/vendor/shieldon/shieldon/src/Firewall/Driver/FileDriver.php on line 123
+[29-Jun-2025 19:22:43 UTC] PHP Fatal error:  Uncaught TypeError: flock(): Argument #1 ($stream) must be of type resource, bool given in /home/fake_path/system/library/Cache/File.php:57
+Stack trace:
+#0 /home/fake_path/system/library/Cache/File.php(57): flock()
+#1 /home/fake_path/system/library/Cache.php(74): Cache\File->set()
+#2 /home/fake_path/public_html/catalog/model/design/seo_url.php(12): Cache->set()
+#3 /home/fake_path/system/library/Loader.php(254): ModelDesignSeoUrl->getSeoUrlsByKeyword()
+#4 /home/fake_path/system/library/Proxy.php(40): Loader->{closure}()
+#5 /home/fake_path/public_html/catalog/controller/common/cms.php(223): Proxy->__call()
+#6 /home/fake_path/system/library/Action.php(132): ControllerCommonCms->getLanguageAlternateLinks()
+#7 /home/fake_path/system/library/Action.php(83): Action->callClassMethod()
+#8 /home/fake_path/system/library/Loader.php(45): Action->execute()
+#9 /home/fake_path/public_html/catalog/controller/common/header.php(233): Loader->controller()
+#10 /home/fake_path/system/library/Action.php(132): ControllerCommonHeader->index()
+#11 /home/fake_path/system/library/Action.php(83): Action->callClassMethod()
+#12 /home/fake_path/system/library/Loader.php(45): Action->execute()
+#13 /home/fake_path/system/library/Ninja/NinjaController.php(30): Loader->controller()
+#14 /home/fake_path/public_html/catalog/controller/error/not_found.php(42): Ninja\NinjaController->renderCommonBlocks()
+#15 /home/fake_path/system/library/Action.php(132): ControllerErrorNotFound->index()
+#16 /home/fake_path/system/library/Action.php(83): Action->callClassMethod()
+#17 /home/fake_path/public_html/catalog/controller/startup/router.php(28): Action->execute()
+#18 /home/fake_path/system/library/Action.php(132): ControllerStartupRouter->index()
+#19 /home/fake_path/system/library/Action.php(83): Action->callClassMethod()
+#20 /home/fake_path/system/library/Router.php(59): Action->execute()
+#21 /home/fake_path/system/library/Router.php(49): Router->execute()
+#22 /home/fake_path/system/framework.php(291): Router->dispatch()
+#23 /home/fake_path/system/helper/general.php(30): require_once('/home/fake_path/...')
+#24 /home/fake_path/public_html/index.php(19): start()
+#25 {main}
+  thrown in /home/fake_path/system/library/Cache/File.php on line 57

@@ -1,0 +1,15 @@
+langchain
+langchain-core
+langchain_ollama
+langchain_openai
+langchain_google
+langchain_community
+fastembed
+qdrant_client
+nvidia_smi
+nvidia-ml-py3
+torch
+pydantic-core
+pydantic
+python-dotenv
+tqdm

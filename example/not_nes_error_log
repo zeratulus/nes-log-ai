@@ -1,0 +1,10 @@
+2025-08-28 17:30:05.123 [INFO] User 'admin' logged in from IP 192.168.1.10
+2025-08-28 17:30:15.456 [WARNING] Low disk space detected on /var/log. Current free space: 10%
+2025-08-28 17:30:20.789 [ERROR] DatabaseConnectionError: Failed to connect to database 'production_db' at 10.0.0.5:5432. Reason: Connection refused.
+2025-08-28 17:30:20.790 [ERROR] ApplicationError: Could not retrieve user data due to database connection failure. User ID: 12345
+    at com.example.app.UserService.getUserById(UserService.java:78)
+    at com.example.app.Controller.handleRequest(Controller.java:45)
+2025-08-28 17:31:01.001 [CRITICAL] OutOfMemoryError: Java heap space
+    at java.util.ArrayList.add(ArrayList.java:456)
+    at com.example.app.DataProcessor.processLargeFile(DataProcessor.java:112)
+2025-08-28 17:31:01.002 [EMERGENCY] System shutdown initiated due to critical resource failure.
