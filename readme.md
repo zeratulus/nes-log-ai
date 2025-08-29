@@ -3,14 +3,14 @@
 This is simple log analyzer enhanced with AI, by default it configured to use Ollama inference with Qwen3-Coder 30b version.
 As option, you can use cloud OpenAI ChatGPT models or any other installed Ollama AI model, see Configuration section below.
 
-Currently, this script can process any log file for any programming language that supports Qwen3-Coder with --non-nes True flag: 
+Currently, this script can process any log file (default cli calls) for any programming language that supports Qwen3-Coder with --oc True flag: 
 Python, Java, JavaScript, C++, C#, PHP, Go, Ruby, Swift, Kotlin, Rust, TypeScript, SQL, R, Scala, Perl, MATLAB, Lua, 
 Dart, Assembly and others (this list of languages I got from Qwen3-Coder chat directly)
 
-Without --non-nes flag (and by default calls) this script designed to process OpenCart log files and log files for my CMS OpenCart capable 
+With --oc True flag this script designed to process OpenCart log files and log files for my CMS OpenCart capable 
 fork called NES (Ninja eCommerce Solution) our pet project here: https://pollyart.store 
 
-PS. This script eats around 40Gb of RAM and 10Gb of VRAM on my PC with CUDA for more efficient inference,
+PS. This script eats around 40Gb of RAM and around 10Gb of VRAM on my PC with CUDA enabled for more efficient inference,
 with only CPU inference it will process your log files slower.
 
 PSPS. To run this experiment with less RAM you can try to use more lightweight model for example: **gemma3n:e4b**
@@ -40,17 +40,32 @@ PSPS. To run this experiment with less RAM you can try to use more lightweight m
 It is a directory that contains main.py file. For example: /home/user/projects/nes-log-ai/main.py
 > DIR_ROOT="/home/user/projects/nes-log-ai/"
 2. IS_LOCAL_OLLAMA_PREFERRED=True flag that indicates to use Ollama if True and ChatGPT if False
+>IS_LOCAL_OLLAMA_PREFERRED=True
 3. IS_LOCAL_OLLAMA_MAX_PERFORMANCE=True is to use more CPU power by Ollama
+> IS_LOCAL_OLLAMA_MAX_PERFORMANCE=True
 4. LOCAL_OLLAMA_MODEL_CODER=qwen3-coder:30b variable to set your Ollama AI model, also you can try main.py --model cli 
 argument to set any of Ollama AI model to work with.
+> LOCAL_OLLAMA_MODEL_CODER=qwen3-coder:30b
 5. LOCAL_OLLAMA_MODEL_CODER_NUM_CTX=256000 variable to set current input context window for AI model (maximum for 
 qwen3-coder:30b is 256K tokens) if you have some problems with script run, you can try to decrease this number. 
-Also take in mind that different AI models has different input token windows, so read model docs on https://ollama.com or on Hugging Face. 
+Also take in mind that different AI models has different input token windows, so read model docs on https://ollama.com or on Hugging Face.
+> LOCAL_OLLAMA_MODEL_CODER_NUM_CTX=256000
 6. LOCAL_OLLAMA_NUM_PREDICT=-1 variable to set maximum AI model output. -1 means that AI model will generate maximally detailed and long possible output.
+> LOCAL_OLLAMA_NUM_PREDICT=-1
 7. LOCAL_OLLAMA_MODEL_DEFAULT_NUM_CTX=32000 any model that will be passed with --model argument will use this input context window size.
-8. OPENAI_MODEL=gpt-4o ChatGPT model family to use for inference in cloud, works only if IS_LOCAL_OLLAMA_PREFERRED=False 
-9. OPENAI_API_KEY=<SOME_API_KEY> insert your OpenAI Api Key here for cloud inference, you can take it here: https://platform.openai.com/ 
-
+> LOCAL_OLLAMA_MODEL_DEFAULT_NUM_CTX=32000
+8. OPENAI_MODEL=gpt-4o ChatGPT model family to use for inference in cloud, works only if IS_LOCAL_OLLAMA_PREFERRED=False
+> OPENAI_MODEL=gpt-4o
+9. OPENAI_API_KEY=<SOME_API_KEY> insert your OpenAI Api Key here for cloud inference, you can take it here: https://platform.openai.com/
+> OPENAI_API_KEY=<SOME_API_KEY>
+10. You can configure LangSmith for your installation https://www.langchain.com/langsmith:
+>LANGSMITH_TRACING="true"
+> 
+>LANGSMITH_ENDPOINT="https://api.smith.langchain.com"
+> 
+>LANGSMITH_API_KEY="<YOUR_LANGSMITH_API_KEY>"
+> 
+> LANGSMITH_PROJECT="nes-ai-log-analyzer"
 
 ## Usage examples
 
