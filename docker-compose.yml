@@ -1,0 +1,48 @@
+version: '3.1'
+
+services:
+  qdrant:
+      image: qdrant/qdrant:latest
+      ports:
+        - "6333:6333" # Qdrant API port
+        - "6334:6334" # Qdrant gRPC port
+      volumes:
+        - qdrant_data:/qdrant/data # Persistent data storage
+
+  db:
+    restart: "no"
+    image: mariadb:latest
+    networks:
+      - app
+    environment:
+      MARIADB_ROOT_PASSWORD: admin
+      MARIADB_USER: dev
+      MARIADB_PASSWORD: pass
+      MARIADB_DATABASE: nes
+    volumes:
+      - ./db_files/mariadb:/var/lib/mysql
+      - ./db_files/sql:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    restart: "no"
+    depends_on: [db]
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: admin
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 1G
+    networks:
+        - app
+    ports:
+      - "8080:80"
+
+volumes:
+  qdrant_data:
+
+networks:
+  app:
+    driver: bridge
