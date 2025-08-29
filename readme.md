@@ -55,10 +55,10 @@ Also take in mind that different AI models has different input token windows, so
 ## Usage examples
 
 This is example of calling for any log file with English response: 
-> python main.py --log /some_path_to_project/nes-log-ai/example/not_nes_error_log --not-nes True
+> python main.py --log /some_path_to_project/nes-log-ai/example/not_nes_error_log
 
 This is example of calling for NES/OpenCart log file with Ukrainian response: 
-> python main.py --log /some_path_to_project/nes-log-ai/example/not_nes_error_log --lang uk
+> python main.py --log /some_path_to_project/nes-log-ai/example/error_log_small --lang uk --oc True
 
 Use double quotes if your log path contains spaces:
-> python main.py --log "/some path to project/nes-log-ai/example/not_nes_error_log" --not-nes True
+> python main.py --log "/some path to project/nes-log-ai/example/not_nes_error_log"
