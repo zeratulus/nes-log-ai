@@ -3,7 +3,7 @@
 This is simple log analyzer enhanced with AI, by default it configured to use Ollama inference with Qwen3-Coder 30b version.
 As option, you can use cloud OpenAI ChatGPT models or any other installed Ollama AI model, see Configuration section below.
 
-Currently, this script can process any log file (default cli calls) for any programming language that supports Qwen3-Coder with --oc True flag: 
+Currently, this script can process any log file (default cli calls) for any programming language that supports Qwen3-Coder: 
 Python, Java, JavaScript, C++, C#, PHP, Go, Ruby, Swift, Kotlin, Rust, TypeScript, SQL, R, Scala, Perl, MATLAB, Lua, 
 Dart, Assembly and others (this list of languages I got from Qwen3-Coder chat directly)
 
