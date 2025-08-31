@@ -10,6 +10,11 @@ from nes.langchain_helpers import ollama_response_to_dict
 from nes.functions import init_llm, torch_info, simple_error_detector
 import nes.apache_php_log_parser as parser
 from nes.log_ai_processor import LogAiProcessor
+import qdrant_client
+from nes.qdrant.fastembed_functions import get_dense_model_vector_size, get_late_interaction_model_vector_size
+from qdrant_client import QdrantClient, models
+from fastembed import TextEmbedding, SparseTextEmbedding, LateInteractionTextEmbedding
+from nes.qdrant.qdrant_hybrid_search import QdrantHybridSearchClient, QDRANT_EMB_DENSE_MODEL_NAME, QDRANT_EMB_SPARSE_MODEL_NAME, QDRANT_EMB_LATE_ITER_MODEL_NAME
 
 dotenv.load_dotenv()
 
@@ -66,7 +71,32 @@ if args.model != "":
 
 llm = init_llm(CURRENT_LLM_MODEL, CURRENT_LLM_NUM_CTX)
 
-processor = LogAiProcessor(llm=llm, parsed_data=parsed_data, args=args, outputs_dir=DIR_OUTPUTS, json_file_name=json_file_name)
+QDRANT_URL = os.environ.get("QDRANT_URL")
+QDRANT_COLLECTION = os.environ.get("QDRANT_COLLECTION_NAME")
+QDRANT_COLLECTION_NAME = f"{QDRANT_COLLECTION}"
+try:
+    qdrant_client_instance = qdrant_client.QdrantClient(url=QDRANT_URL, prefer_grpc=False)
+except Exception as e:
+    print(f"Помилка підключення до Qdrant за адресою {QDRANT_URL}.")
+    print("Переконайтеся, що ви запустили Qdrant")
+    raise e
+
+qdrant_hybrid = QdrantHybridSearchClient(client=qdrant_client_instance, collection_name=QDRANT_COLLECTION_NAME)
+
+logging.info(f"Створення нової колекції '{QDRANT_COLLECTION_NAME}' з гібридною конфігурацією...")
+qdrant_hybrid.create_collection_if_not_exists(collection_name=QDRANT_COLLECTION_NAME)
+logging.info("Колекцію успішно створено.")
+
+logging.info("Ініціалізація моделей ембедингів з fastembed...")
+try:
+    dense_embedding_model = TextEmbedding(QDRANT_EMB_DENSE_MODEL_NAME)
+    sparse_embedding_model = SparseTextEmbedding(QDRANT_EMB_SPARSE_MODEL_NAME)
+    late_interaction_embedding_model = LateInteractionTextEmbedding(QDRANT_EMB_LATE_ITER_MODEL_NAME)
+    logging.info("Моделі ембедингів успішно ініціалізовано.")
+except Exception as e:
+    logging.error(f"Не вдалося ініціалізувати моделі fastembed: {e}")
+
+processor = LogAiProcessor(llm=llm, parsed_data=parsed_data, args=args, outputs_dir=DIR_OUTPUTS, json_file_name=json_file_name, qdrant_hybrid=qdrant_hybrid, log_file_name=log_file_name)
 
 #Processing for NES/Opencart log files
 if parsed_data and args.is_nes_parsing:

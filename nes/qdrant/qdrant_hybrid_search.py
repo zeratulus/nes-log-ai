@@ -1,6 +1,7 @@
 from qdrant_client import QdrantClient, models
 import logging
 import os
+from nes.qdrant.fastembed_functions import get_dense_model_vector_size, get_late_interaction_model_vector_size
 
 # Щільні (Dense) вектори - для семантичного розуміння.
 QDRANT_EMB_DENSE_MODEL_NAME = os.environ.get("QDRANT_EMB_DENSE_MODEL_NAME")
@@ -42,6 +43,9 @@ class QdrantHybridSearchClient:
     def __init__(self, client: QdrantClient, collection_name: str):
         self.client = client
         self.collection_name = collection_name
+
+        self.dense_dim = get_dense_model_vector_size(QDRANT_EMB_DENSE_MODEL_NAME)
+        self.late_interaction_dim = get_late_interaction_model_vector_size(QDRANT_EMB_LATE_ITER_MODEL_NAME)
 
     def rrf_prefetch(self, dense_query_vector, sparse_query_vector, ):
         prefetch = [
@@ -168,3 +172,62 @@ class QdrantHybridSearchClient:
             with_payload=self.is_with_payload,
             limit=self.results_limit,
         )
+
+    def update_indexes(self):
+        logging.info("Очікування завершення індексації...")
+        self.client.update_collection(
+            collection_name=self.collection_name,
+            optimizer_config=models.OptimizersConfigDiff(indexing_threshold=0),
+        )
+
+    def add_point(self, doc_id, payload, dense_embedding, sparse_embedding, late_interaction_embedding):
+        point = models.PointStruct(
+            id=doc_id,
+            vector={
+                QDRANT_EMB_DENSE_VECTOR_NAME: dense_embedding,
+                QDRANT_EMB_SPARSE_VECTOR_NAME: sparse_embedding,
+                QDRANT_EMB_LATE_ITER_VECTOR_NAME: late_interaction_embedding,
+            },
+            payload=payload
+        )
+
+        self.add_points([point])
+
+        return point
+
+    def add_points(self, points):
+        self.client.upsert(
+            collection_name=self.collection_name,
+            points=points,
+            wait=False
+        )
+
+    def create_collection(self, collection_name: str):
+        self.client.create_collection(
+            collection_name=collection_name,
+            vectors_config={
+                # Щільний вектор
+                QDRANT_EMB_DENSE_VECTOR_NAME: models.VectorParams(
+                    size=self.dense_dim,
+                    distance=models.Distance.COSINE,
+                ),
+                # Мульти-вектор (багато векторів на документ)
+                QDRANT_EMB_LATE_ITER_VECTOR_NAME: models.VectorParams(
+                    size=self.late_interaction_dim,
+                    distance=models.Distance.COSINE,
+                    multivector_config=models.MultiVectorConfig(
+                        comparator=models.MultiVectorComparator.MAX_SIM,
+                    )
+                ),
+            },
+            # Розріджений вектор
+            sparse_vectors_config={
+                QDRANT_EMB_SPARSE_VECTOR_NAME: models.SparseVectorParams(
+                    modifier=models.Modifier.IDF,
+                )
+            }
+        )
+
+    def create_collection_if_not_exists(self, collection_name: str):
+        if not self.client.get_collection(collection_name=collection_name):
+            self.create_collection(collection_name)
